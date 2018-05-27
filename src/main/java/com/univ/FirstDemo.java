@@ -6,4 +6,8 @@ public class FirstDemo {
         System.out.println("FirstDemo::main");
     }
 
+    public void fn() {
+        System.out.println("fn");
+    }
+
 }

@@ -1,9 +1,14 @@
 group 'com.univ'
 version '1.0-SNAPSHOT'
 
+// 定义默认的任务，即直接运行gradle时会被调用的任务
+defaultTasks("hello", "second")
+
+
 // 引入插件：java
 apply plugin: 'java'
 
+// 使用不同jdk版本时要注意这里的值，可能会有问题
 sourceCompatibility = 1.8
 
 // 引入仓库：maven
@@ -17,9 +22,67 @@ dependencies {
 }
 
 // 自定义任务
-task hello  {
-    doLast {
-        println "hello"
+// 使用<<的写法已经被废弃了
+/*task hello1 << {
+    // 会在doFirst方法之后、doLast方法之前被调用
+    println("输出：<< has be deprecated")
+}
+hello1.doFirst {
+    println("hello1:doFirst")
+}
+hello1.doLast {
+    println("hello1:doLast")
+}*/
+
+
+// ------------自定义任务begin----------
+task hello {
+
+    // 似乎总共只有两个方法：doFirst，doLast
+    doFirst {
+        println("输出：hello::doFirst")
     }
 
+    doLast {
+        String str = "hello::doLast"
+        println("输出：" + str)
+    }
 }
+// ------------自定义任务end----------
+
+
+// ------------任务继承begin----------
+task father {
+    doFirst {
+        println("输出：父任务先被执行：father")
+    }
+}
+
+task child(dependsOn:father) {
+    doFirst {
+        println("输出：子任务被执行：child")
+    }
+}
+// ------------任务继承end----------
+
+
+// ------------为任务定义属性begin----------
+task second {
+    // 自定义变量定义在ext中
+    ext.univ_prop = "univ_name"
+}
+
+task second2 {
+    // 引用其它任务的变量
+    println(second.univ_prop)
+}
+// ------------为任务定义属性end----------
+
+// ------------定义方法，任务调用begin----------
+String getName() {
+    return "return from getName"
+}
+task third {
+    println(getName())
+}
+// ------------定义方法，任务调用end----------
