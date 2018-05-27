@@ -6,6 +6,9 @@ defaultTasks("hello", "second")
 
 
 // 引入插件：java
+/*
+Gradle 默认在 src/main/java 目录下寻找到你的正式环境下的源码, 在 src/test/java 目录下寻找到你的测试源码, 并在src/main/resources目录下寻找到你准备打包进jar的资源文件。测试代码会被加入到环境变量中设置的目录里运行。所有的输出文件都会被创建在构建目录里, 生成的JAR文件会被存放在 build/libs 目录下
+ */
 apply plugin: 'java'
 
 // 使用不同jdk版本时要注意这里的值，可能会有问题
